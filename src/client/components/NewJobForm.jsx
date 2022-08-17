@@ -24,7 +24,6 @@ const NewJobForm = (props) => {
       console.log(data);
     }
 
-
     return (
         <div className = "newJobForm">
           <form onSubmit = {onSubmit}>

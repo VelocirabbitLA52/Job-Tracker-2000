@@ -30,24 +30,29 @@ const test = {testList: [{
 }]}
 
 const Container = (props) => {
-  
+
   const [data, setData] = useState([]);
   const [isLoggedIn, setLoginState] = useState(null);
-
+  
   async function getJobData() {
+    
     const response = await fetch("/api/jobs", 
-    {method: "GET", 
-     headers: {"Content-Type": "application/json"},
-            }
-    );
+    { 
+      method: "GET", 
+      headers: {"Content-Type": "application/json"},
+    });
+
     if (await response.status === 200) {
       setLoginState(true);
     } else if (await response.status === 401) {
       setLoginState(false);
     }
+
     const jobList = await response.json();
-    console.log("jobList",jobList);
+
+    console.log("jobList",jobList); //showing up in browser console
     // return data;
+
     const newJobList = jobList.map(element => {
       const newElement = {jobTitle: element.jobtitle,
       companyName: element.company_id,
@@ -56,32 +61,34 @@ const Container = (props) => {
       starred: element.starred,
       status: element.status,
       notesText: element.note,};
-      return newElement;
+      return newElement;    
     });
-  setData(newJobList);
+    
+    console.log('newJobList', newJobList); //showing up in browser console
+    console.log('setdata func', setData); //showing up in browser console
+
+    await setData(newJobList)
+      .then( () => console.log('UPDATED DATA WITH THEN ', data))
+
+    console.log('this is updated data', data); //why is this still empty when this is printed to the console? Shouldn't it be changed since we setData passing in newJobList?
   }
 
-  useEffect(() => {
+  useEffect( () => {
     getJobData();
-    // setData(newData);
-  },[])
+  }, [])
 
   return (
     <div className="container">
       {(isLoggedIn === false) && <Navigate to="/login" replace={true} />}
-     <TabsContainer>
-       <div label = "Jobs">
-        <NewJobForm />
-        <JobList testList = {data}/>
-       </div>
-       <div label = "Companies">
-        <CompanyList />
-       </div>
-       </TabsContainer>
-       
-
-     
-    
+      <TabsContainer>
+        <div label = "Jobs">
+          <NewJobForm />
+          <JobList testList = {data}/>
+        </div>
+        <div label = "Companies">
+          <CompanyList />
+        </div>
+      </TabsContainer>    
     </div>);
 }
 

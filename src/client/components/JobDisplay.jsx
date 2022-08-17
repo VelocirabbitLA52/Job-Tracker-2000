@@ -4,10 +4,10 @@ import React, { useEffect } from 'react';
 
 const JobDisplay = (props) => {
     useEffect(() => {
-        console.log(document.getElementById(props.status));
+        console.log("PROPS STATUS IN JOB DISPLAY: ", document.getElementById(props.status));
         const statusElement = document.getElementById(props.status);
-        statusElement.setAttribute("selected","selected");
-    });
+        // statusElement.setAttribute("selected","selected");
+    }, []); 
     return (
         <div className="jobDisplay card">
             <div className="card-body">
@@ -20,7 +20,7 @@ const JobDisplay = (props) => {
                     date saved: {props.dateLastChecked}<br/><br/>
                 </div>
                 <div className="right">
-                    <label for="status">Status:</label>
+                    <label htmlFor="status">Status:</label>
                     <select className="form-select" name="status" id="status">
                         <option value="interested" id="interested">
                             Interested
@@ -35,7 +35,7 @@ const JobDisplay = (props) => {
                             Declined
                         </option>
                     </select>
-                    <label for="notesField">Notes:</label>
+                    <label htmlFor="notesField">Notes:</label>
                     <div contentEditable="true" id="notesField">
                     {props.notesText}
                     </div>

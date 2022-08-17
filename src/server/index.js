@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 });
 
 //handles all router paths
-app.use('/', apiRouter);
+app.use('/api', apiRouter);
 
 app.post('/signup', loginControllers.createUser, (req, res) => {
   console.log('WE HAVE ENTERED SIGN UP ROUTE HANDLER');

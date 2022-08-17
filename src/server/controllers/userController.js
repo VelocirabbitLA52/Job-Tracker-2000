@@ -5,15 +5,19 @@ const userController = {};
 userController.getJobs = (req, res, next) => {
   // grab get parameters (username id) to query all job listings: 
   //! assume that the passed in parameters in userId is req.params.id 
-  const testQuery = 'SELECT * FROM jobListings';
-  const jobQuery = 'SELECT jobListings.*, company.name AS company_id FROM joblistings INNER JOIN company ON company_id = joblistings.company_id WHERE joblistings.user_id= (SELECT _id FROM users WHERE name = $1)';
+  const jobQuery = `
+    SELECT joblistings.*, company.name 
+    AS company_id 
+    FROM joblistings 
+    INNER JOIN company 
+    ON company_id = joblistings.company_id 
+    WHERE joblistings.user_id = (
+      SELECT _id FROM users WHERE name = $1)`;
   const userId = [res.locals.name];
   console.log('this is userId', userId);
-  
-  // db.query( jobQuery, userId )
-  db.query(testQuery)
+  db.query( jobQuery, userId )
     .then((result) => {
-      console.log(result.rows);
+      console.log('this our result.rows', result.rows);
       res.locals.jobs = result.rows;
       return next();
     })
@@ -38,7 +42,7 @@ userController.postJob = (req, res, next) => {
 
   db.query(jobQuery, values)
     .then((result) => {
-      console.log("QUERY RESULT IS ", result.rows);
+      console.log('QUERY RESULT IS ', result.rows);
       res.locals.newJob = result.rows;
       return next();
     })
