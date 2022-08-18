@@ -55,7 +55,7 @@ const Container = (props) => {
 
     const newJobList = jobList.map(element => {
       const newElement = {jobTitle: element.jobtitle,
-      companyName: element.company_id,
+      companyName: element.company_name,
       jobListingUrl: element.url,
       dateCreated: element.datecreated,
       starred: element.starred,
@@ -68,7 +68,7 @@ const Container = (props) => {
     console.log('setdata func', setData); //showing up in browser console
 
     await setData(newJobList)
-      .then( () => console.log('UPDATED DATA WITH THEN ', data))
+      // .then( () => console.log('UPDATED DATA WITH THEN ', data))
 
     console.log('this is updated data', data); //why is this still empty when this is printed to the console? Shouldn't it be changed since we setData passing in newJobList?
   }

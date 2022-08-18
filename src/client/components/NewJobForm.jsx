@@ -1,15 +1,16 @@
 // import { response } from 'express';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 const NewJobForm = (props) => {
     const [jobInput, setJobInput] = useState("");
     const [companyInput, setCompanyInput] = useState("");
     const [urlInput, setUrlInput] = useState("");
+    const [data, setData] = useState([]);
 
     async function onSubmit(event) {
       event.preventDefault();
-      const response = await fetch("/api", {
+      const response = await fetch("/api/jobs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -17,12 +18,16 @@ const NewJobForm = (props) => {
         body: JSON.stringify({
           jobTitle: jobInput, companyName: companyInput, jobListingUrl: urlInput}),
         });
-        
-      
-       ;
-      const data = await response.json();
-      console.log(data);
+
+        const data = await response.json();
+       await setData(data);
+    
+      console.log('this is our data in newjobform', data);
     }
+
+    useEffect( () => {
+      onSubmit();
+    }, [])
 
     return (
         <div className = "newJobForm">

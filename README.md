@@ -24,7 +24,7 @@ CREATE TABLE jobListings(
     starred boolean,
     note varchar,
     dateCreated date,
-    company_id bigint references company(_id),
+    company_name varchar,
     user_id bigint references users(_id)
 );
 
