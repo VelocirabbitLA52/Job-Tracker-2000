@@ -58,7 +58,7 @@ loginControllers.createToken = (req, res, next) => {
   console.log('here is the header', req.header);
   const { name } = req.body;
   
-  jwt.sign({name}, process.env.JWT_SECRET, { expiresIn: 30}, (err, token) => {
+  jwt.sign({name}, process.env.JWT_SECRET, { expiresIn: '1h'}, (err, token) => {
     res.locals.myToken = {token};
     console.log('TOKEN IS ', token);
     res.cookie('authorization', token, { HttpOnly: true});

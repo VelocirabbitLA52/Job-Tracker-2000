@@ -11,9 +11,10 @@ router.get('/jobs', loginControllers.checkForToken, loginControllers.verifyToken
 });
 
 // post request for user to add to their list of applications
-router.post('/jobs', userController.postJob, ( req, res ) => {
+router.post('/jobs', loginControllers.checkForToken, loginControllers.verifyToken, userController.postJob, userController.getJobs, ( req, res ) => {
   console.log('WE HAVE ENTERED POST JOB ROUTE HANDLER');
-  return res.status(200).json(res.locals.newJob);
+  // return res.status(200).json(res.locals.jobs);
+  return res.redirect('/api/jobs');
 });
 
 
