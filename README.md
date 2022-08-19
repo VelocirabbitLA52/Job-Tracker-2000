@@ -13,10 +13,10 @@ CREATE TABLE users(
 );
 
 
-jobListings:
+jobListings2:
 CREATE TYPE status AS ENUM ('started application', 'applied', 'interview scheduled', 'declined');
 
-CREATE TABLE jobListings(
+CREATE TABLE jobListings2(
     _id serial NOT NULL PRIMARY KEY,
     jobTitle varchar NOT NULL,
     url varchar NOT NULL,

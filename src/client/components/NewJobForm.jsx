@@ -1,6 +1,6 @@
 // import { response } from 'express';
 import React, { useState, useEffect } from 'react';
-
+import JobList from './JobList';
 
 const NewJobForm = (props) => {
     const [jobInput, setJobInput] = useState("");
@@ -19,16 +19,30 @@ const NewJobForm = (props) => {
           jobTitle: jobInput, companyName: companyInput, jobListingUrl: urlInput}),
         });
 
-        const data = await response.json();
-       await setData(data);
+        const jobList = await response.json();
+
+        const newJobList = jobList.map(element => {
+          const newElement = {jobTitle: element.jobtitle,
+          companyName: element.company_name,
+          jobListingUrl: element.url,
+          dateCreated: element.datecreated,
+          starred: element.starred,
+          status: element.status,
+          notesText: element.note,};
+          return newElement;    
+        });
     
+        setData(newJobList);
+      
       console.log('this is our data in newjobform', data);
+      
+      
     }
 
     useEffect( () => {
       onSubmit();
     }, [])
-
+    
     return (
         <div className = "newJobForm">
           <form onSubmit = {onSubmit}>
@@ -51,8 +65,11 @@ const NewJobForm = (props) => {
                    onChange={(e) => setUrlInput(e.target.value)}
                    />
             <input type="submit" value="Add job"/>
-                
           </form>
+
+          <section>
+          <JobList testList={data} />
+          </section>
         </div>
     )
 }

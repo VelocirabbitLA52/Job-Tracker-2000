@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 
 const JobDisplay = (props) => {
     useEffect(() => {
+        // console.log('DATE:', props.dateCreated.toString())
         console.log("PROPS STATUS IN JOB DISPLAY: ", document.getElementById(props.status));
         const statusElement = document.getElementById(props.status);
         // statusElement.setAttribute("selected","selected");
@@ -17,7 +18,7 @@ const JobDisplay = (props) => {
                         <a href={props.jobListingUrl}>{props.jobTitle}</a>
                     </h3>
                     <a href='#'>{props.companyName}</a><br/>
-                    date saved: {props.dateLastChecked}<br/><br/>
+                    Date Created: {props.dateCreated}<br/><br/>
                 </div>
                 <div className="right">
                     <label htmlFor="status">Status:</label>

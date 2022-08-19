@@ -3,6 +3,7 @@ import TabsContainer from "./TabsContainer";
 import JobList from "./JobList";
 import CompanyList from "./CompanyList";
 import NewJobForm from "./NewJobForm";
+import NewCompanyForm from "./NewCompanyForm";
 import { Navigate, useNavigate } from "react-router-dom";
 
 
@@ -28,6 +29,8 @@ const test = {testList: [{
   notesText: "",
   notesSave: "func"
 }]}
+
+// let newJobList; 
 
 const Container = (props) => {
 
@@ -70,12 +73,17 @@ const Container = (props) => {
     await setData(newJobList)
       // .then( () => console.log('UPDATED DATA WITH THEN ', data))
 
-    console.log('this is updated data', data); //why is this still empty when this is printed to the console? Shouldn't it be changed since we setData passing in newJobList?
+    // console.log('this is updated data', data); //why is this still empty when this is printed to the console? Shouldn't it be changed since we setData passing in newJobList?
+  
+    // return newJobList; 
   }
+  // console.log('newJobList in Container is: ', newJobList); //returns undefined; 
 
   useEffect( () => {
     getJobData();
   }, [])
+
+  // setData(newJobList)
 
   return (
     <div className="container">
@@ -86,7 +94,8 @@ const Container = (props) => {
           <JobList testList = {data}/>
         </div>
         <div label = "Companies">
-          <CompanyList />
+          <NewCompanyForm />
+        
         </div>
       </TabsContainer>    
     </div>);
