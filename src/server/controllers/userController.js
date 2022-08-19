@@ -14,7 +14,7 @@ userController.getJobs = (req, res, next) => {
   console.log('this is userId', userId);
   db.query( jobQuery, userId )
     .then((result) => {
-      console.log('this our result.rows', result.rows);
+      // console.log('this our result.rows', result.rows);
       res.locals.jobs = result.rows;
       return next();
     })
