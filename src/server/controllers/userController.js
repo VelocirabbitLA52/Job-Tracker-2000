@@ -7,8 +7,8 @@ userController.getJobs = (req, res, next) => {
   //! assume that the passed in parameters in userId is req.params.id 
   const jobQuery = `
   SELECT *
-  FROM jobListings 
-  WHERE jobListings.user_id = (
+  FROM jobListings2 
+  WHERE jobListings2.user_id = (
   SELECT _id FROM users WHERE name = $1)`;
   const userId = [res.locals.name];
   console.log('this is userId', userId);
@@ -45,12 +45,45 @@ userController.postJob = (req, res, next) => {
       const values = [jobTitle, jobListingUrl, companyName, userIDNum]; 
       console.log('post job values for nested query are: ', values);
   
-      const jobQuery = 'INSERT INTO jobListings(jobTitle, url, company_name, user_id) VALUES ($1, $2, $3, $4) RETURNING *';
+      const jobQuery = 'INSERT INTO jobListings2(jobtitle, url, company_name, user_id) VALUES ($1, $2, $3, $4) RETURNING *';
 
       db.query(jobQuery, values)
         .then((result) => {
           console.log('QUERY RESULT IS ', result.rows);
           res.locals.newJob = result.rows;
+          return next();
+        });
+    })
+    .catch(err => {
+      return next({
+        log: 'Express error handler caught in getJobs middleware error',
+        status: 500,
+        message: { err: 'An error in getJobs' },
+      });
+    });
+};
+
+userController.getCompany = (req, res, next) => {
+  const { companyName } = req.body;
+  console.log('req body comp name', req.body.companyName);
+  
+  const userName = [res.locals.name]; 
+  const userIdQueryStr = 'SELECT _id FROM users WHERE name = ($1)';
+  
+  db.query(userIdQueryStr, userName)
+    .then(result => {
+      const userIDNum = result.rows[0]._id;
+      console.log('the userIDNum in get company is: ', userIDNum);
+
+      const values = [companyName, userIDNum]; 
+      console.log('get companies values for nested query are: ', values);
+
+      const companyQuery = 'SELECT * from jobListings2 WHERE company_name = ($1) AND user_id = ($2)';
+
+      db.query(companyQuery, values)
+        .then((result) => {
+          console.log('COMPANY QUERY RESULT IS ', result.rows);
+          res.locals.companies = result.rows;
           return next();
         });
     })

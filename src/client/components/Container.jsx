@@ -3,6 +3,7 @@ import TabsContainer from "./TabsContainer";
 import JobList from "./JobList";
 import CompanyList from "./CompanyList";
 import NewJobForm from "./NewJobForm";
+import NewCompanyForm from "./NewCompanyForm";
 import { Navigate, useNavigate } from "react-router-dom";
 
 
@@ -73,6 +74,8 @@ const Container = (props) => {
     console.log('this is updated data', data); //why is this still empty when this is printed to the console? Shouldn't it be changed since we setData passing in newJobList?
   }
 
+  
+
   useEffect( () => {
     getJobData();
   }, [])
@@ -86,7 +89,8 @@ const Container = (props) => {
           <JobList testList = {data}/>
         </div>
         <div label = "Companies">
-          <CompanyList />
+          <NewCompanyForm />
+        
         </div>
       </TabsContainer>    
     </div>);
